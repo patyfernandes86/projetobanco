@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Caixa Eletrônico</title>
+</head>
+<body>
+<h1>Simulador de Caixa Eletrônico</h1>
+<label for="operacao">Selecione a operação:</label>
+<select id="operacao">
+  <option value="consultar">Consultar Saldo</option>
+  <option value="sacar">Sacar</option>
+  <option value="depositar">Depositar</option>
+</select>
+<br>
+<label for="valor">Valor:</label>
+<input type="number" id="valor" min="0" step="0.01">
+<button onclick="realizarOperacao()">Realizar</button>
+<p id="resultado"></p>
+
+<script>
+let saldo = 1000;
+
+function realizarOperacao() {
+  let operacaoSelecionada = document.getElementById("operacao").value;
+  let valor = parseFloat(document.getElementById("valor").value);
+
+  if (isNaN(valor) || valor <= 0) {
+    document.getElementById("resultado").textContent = "Por favor, insira um valor válido.";
+    return;
+  }
+
+  switch (operacaoSelecionada) {
+    case "consultar":
+      document.getElementById("resultado").textContent = `Seu saldo é R$ ${saldo.toFixed(2)}.`;
+      break;
+    case "sacar":
+      if (valor > saldo) {
+        document.getElementById("resultado").textContent = "Saldo insuficiente.";
+      } else {
+        saldo -= valor;
+        document.getElementById("resultado").textContent = `Saque de R$ ${valor.toFixed(2)} realizado com sucesso. Novo saldo: R$ ${saldo.toFixed(2)}.`;
+      }
+      break;
+    case "depositar":
+      saldo += valor;
+      document.getElementById("resultado").textContent = `Depósito de R$ ${valor.toFixed(2)} realizado com sucesso. Novo saldo: R$ ${saldo.toFixed(2)}.`;
+      break;
+    default:
+      document.getElementById("resultado").textContent = "Operação inválida.";
+  }
+}
+</script>
+</body>
+</html>
